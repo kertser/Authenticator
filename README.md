@@ -6,8 +6,6 @@ Simple script for client-server authentication (in development)
 
 - [Project Name](#project-name)
   - [About](#about)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
   - [Usage](#usage)
   - [License](#license)
 
