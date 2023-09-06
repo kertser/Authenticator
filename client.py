@@ -53,25 +53,48 @@ def set_code(input_string):
 
 # Send button function for phone number and code input
 def send():
-    if config.phone_number_valid and not config.code_accepted:
-        json_data = json.dumps({'phone_number': config.p_number})
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-            try:
-                client_socket.connect((config.HOST, config.PORT))
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        try:
+
+            client_socket.connect((config.HOST, config.PORT))
+
+            if config.phone_number_valid and not config.phone_number_accepted:  # Send phone number
+                json_data = json.dumps({'phone_number': config.p_number})
+                client_socket.send(json_data.encode())
+                data = client_socket.recv(1024)
+            elif config.phone_number_accepted:  # Send the code
+                json_data = json.dumps({'code': config.code})
                 client_socket.send(json_data.encode())
                 data = client_socket.recv(1024)
 
-                if data.decode() == '200':
-                    print('Phone number accepted')
+            response = json.loads(data.decode())
+            if 'token' not in response:
+                if response['message'] == '200': # Phone is in list
+                    ui.notify('Phone number accepted')
                     config.phone_number_accepted = True
                     phone_number.disable()
                     code.enable()
-            except ConnectionRefusedError:
-                print('Connection refused')
+                elif response['message'] == '100':  # Phone is not in list
+                    ui.notify('Phone number not found. Try again')
+                    config.phone_number_accepted = False
+                elif response['message'] == '300':  # Incorrect code
+                    ui.notify('Code not valid. Try again')
+                    config.code_accepted = False
 
-            finally:
-                client_socket.shutdown(socket.SHUT_RDWR)
-                client_socket.close()
+            elif ('token' in response) and (response['message'] == '200'):
+
+                config.token = response['token']
+                config.code_accepted = True
+                code.disable()
+                send.disable()
+                ui.notify('Token: ' + config.token, close_button='OK')
+
+        except ConnectionRefusedError:
+            print('Connection refused')
+
+        finally:
+            client_socket.shutdown(socket.SHUT_RDWR)
+            client_socket.close()
 
 
 ui.colors()
@@ -87,7 +110,7 @@ with ui.card().classes('bg-cyan-300 no-wrap'):
                             on_change=lambda n: set_code(n.value),
                             validation={'Non-numerical format': lambda value: correct_code(value)},
                             placeholder='Enter your code').classes('space-x-5 w-64')
-            # code.disable()
+            code.disable()
             send = ui.button('send', on_click=send).props('outline size=xm')
 
 if __name__ == "__main__":
