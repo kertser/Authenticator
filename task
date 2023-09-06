@@ -1,0 +1,19 @@
+Тип: POST
+Поле: phone (+79999999999)
+
+Ответ: Json
+Код ответа: 200 успех, остальные ошибка.
+Формат ответа:
+{result: boolean[true/false], message: string }
+
+Запрос на проверку кода:
+
+Тип: POST
+Поле: code (Number: 555555)
+Поле: phone (+79999999999) состояние в Rest запросах не хранится.
+
+
+Ответ: Json
+Код ответа: 200 успех, остальные ошибка.
+Формат ответа:
+{result: boolean[true/false], message: string, token: string}
