@@ -5,6 +5,7 @@ import socket
 import json
 
 
+# Validating phone number format
 def correct_format(input_string):
     pattern = r'^[0-9+]+$'
 
@@ -19,6 +20,23 @@ def correct_format(input_string):
         return False
 
 
+# Validating code numerical format
+def correct_code(input_string):
+    pattern = r'^[0-9]+$'
+
+    if not input_string == '':
+        if re.match(pattern, input_string):
+            config.code_valid = True
+            send.enable()
+            return True
+
+        else:
+            config.code_valid = False
+            send.disable()
+            return False
+
+
+# Adding plus sign to phone number function
 def add_plus(input_string):
     if not input_string.value.startswith('+') and not input_string.value == '':
         return '+' + input_string.value
@@ -27,18 +45,22 @@ def add_plus(input_string):
         return input_string.value
 
 
-# Send button function
+# Set code function for code input
+def set_code(input_string):
+    if config.code_valid:
+        config.code = input_string
+
+
+# Send button function for phone number and code input
 def send():
-    print(config.p_number)
-    if config.phone_number_valid:
+    if config.phone_number_valid and not config.code_accepted:
         json_data = json.dumps({'phone_number': config.p_number})
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
             try:
-                client_socket.connect((config.host, config.port))
+                client_socket.connect((config.HOST, config.PORT))
                 client_socket.send(json_data.encode())
-
                 data = client_socket.recv(1024)
-                print(data.decode())
+
                 if data.decode() == '200':
                     print('Phone number accepted')
                     config.phone_number_accepted = True
@@ -61,10 +83,13 @@ with ui.card().classes('bg-cyan-300 no-wrap'):
                                     on_change=lambda n: phone_number.set_value(add_plus(n)),
                                     validation={'Non-numerical format': lambda value: correct_format(value)},
                                     placeholder='Enter your phone number').classes('space-x-5 w-64')
-            code = ui.input(label='Code:', value='', placeholder='Enter your code').classes('space-x-5 w-64')
-            code.disable()
+            code = ui.input(label='Code:',
+                            on_change=lambda n: set_code(n.value),
+                            validation={'Non-numerical format': lambda value: correct_code(value)},
+                            placeholder='Enter your code').classes('space-x-5 w-64')
+            # code.disable()
             send = ui.button('send', on_click=send).props('outline size=xm')
 
 if __name__ == "__main__":
     ui.run(title='Authenticator', host='127.0.0.1', reload=False, show=True)
-    # ui.run(title='Authenticator', reload=True, show=True)
+    # ui.run(title='Authenticator', reload=True, show=True) - this is for deployment with uvicorn/gunicorn
