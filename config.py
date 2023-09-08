@@ -9,5 +9,7 @@ code_valid = False  # Valid format
 code_accepted = False  # Accepted by server
 
 # Server address
-HOST = 'localhost'
+
+HOST = 'localhost'  # for local test only
+# HOST = '0.0.0.0' #  will be on the docker
 PORT = 5000

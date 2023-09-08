@@ -1,0 +1,31 @@
+version: '3'
+services:
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server.py:/app/server.py
+    environment:
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: mike
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: users
+
+  mysql-db:
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 654321
+      MYSQL_DATABASE: users
+      MYSQL_USER: mike
+      MYSQL_PASSWORD: 123456
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

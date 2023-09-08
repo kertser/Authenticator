@@ -69,7 +69,7 @@ def send():
 
             response = json.loads(data.decode())
             if 'token' not in response:
-                if response['message'] == '200': # Phone is in list
+                if response['message'] == '200':  # Phone is in list
                     ui.notify('Phone number accepted')
                     config.phone_number_accepted = True
                     phone_number.disable()
