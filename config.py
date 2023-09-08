@@ -11,5 +11,6 @@ code_accepted = False  # Accepted by server
 # Server address
 
 # HOST = 'localhost'  # for local test only
-HOST = '0.0.0.0' #  will be on the docker
+HOST = '0.0.0.0'  # will be on the docker
+# HOST = '46.243.232.144' # This is the real IP address of the server
 PORT = 5000

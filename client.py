@@ -53,10 +53,12 @@ def set_code(input_string):
 
 # Send button function for phone number and code input
 def send():
+    HOST = '46.243.232.144'  # This is the real IP address of the server
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         try:
 
-            client_socket.connect((config.HOST, config.PORT))
+            client_socket.connect((HOST, config.PORT))
 
             if config.phone_number_valid and not config.phone_number_accepted:  # Send phone number
                 json_data = json.dumps({'phone_number': config.p_number})
