@@ -1,0 +1,21 @@
+docker-compose up -d
+
+sudo docker exec -it <container_name_or_id> /bin/bash
+mysql -u <mysql_username> -p
+
+CREATE TABLE `users` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
+    password VARBINARY(128) NOT NULL,
+    token VARBINARY(128) NOT NULL,
+    registration_date DATE,
+    last_connection_date DATE,
+    telegram_profile VARCHAR(255),
+    active ENUM('y', 'n')
+);
+
+INSERT INTO users (username, phone_number, password, token, registration_date, last_connection_date, telegram_profile, active)
+VALUES ('Mike Kertser', '+972546490221', 'mypassword', '08092023','2023-09-08','2023-09-08','https://t.me/MikeKertser', 'y');
+
+SELECT * FROM users;
