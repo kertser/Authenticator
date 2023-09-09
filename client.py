@@ -53,7 +53,7 @@ def set_code(input_string):
 
 # Send button function for phone number and code input
 def send():
-    #  HOST = '46.243.232.144'  # This is the real IP address of the server
+    #  HOST = '46.243.233.79'  # This is the real IP address of the server
     HOST = 'localhost'  # This is for the local test
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:

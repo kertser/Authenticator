@@ -13,7 +13,7 @@ code_accepted = False  # Accepted by server
 
 # HOST = 'localhost'  # for local test only
 HOST = '0.0.0.0'  # will be on the docker, remotely
-# HOST = '46.243.232.144' # This is the real IP address of the server (not to be used remotely)
+# HOST = '46.243.233.79' # This is the real IP address of the server (not to be used remotely)
 PORT = 5000
 
 # Database connection parameters
