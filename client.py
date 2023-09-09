@@ -24,16 +24,15 @@ def correct_format(input_string):
 def correct_code(input_string):
     pattern = r'^[0-9]+$'
 
-    if not input_string == '':
-        if re.match(pattern, input_string):
-            config.code_valid = True
-            send.enable()
-            return True
+    if re.match(pattern, input_string) or (input_string == ''):
+        config.code_valid = True
+        send.enable()
+        return True
 
-        else:
-            config.code_valid = False
-            send.disable()
-            return False
+    else:
+        config.code_valid = False
+        send.disable()
+        return False
 
 
 # Adding plus sign to phone number function
@@ -88,9 +87,18 @@ def send():
 
                 config.token = response['token']
                 config.code_accepted = True
-                code.disable()
-                send.disable()
+
                 ui.notify('Token: ' + config.token, close_button='OK')
+                #  Reset
+                config.phone_number_accepted = False
+                config.code_accepted = False
+                config.p_number = '+79999999999'
+                config.code = '123456'
+                phone_number.set_value(config.p_number)
+                code.set_value("")
+                phone_number.enable()
+                code.disable()
+                send.enable()
 
         except ConnectionRefusedError:
             print('Connection refused')
