@@ -20,5 +20,6 @@ docker-compose --version
 sudo apt autoremove
 
 git clone https://github.com/kertser/Authenticator
+# shellcheck disable=SC2164
 cd Authenticator
 docker-compose up -d
