@@ -1,3 +1,8 @@
+-- Create a user and grant privileges
+CREATE USER IF NOT EXISTS '{{MYSQL_USER}}'@'%' IDENTIFIED BY '{{MYSQL_PASSWORD}}';
+GRANT ALL PRIVILEGES ON `{{MYSQL_DATABASE}}`.* TO '{{MYSQL_USER}}'@'%';
+FLUSH PRIVILEGES;
+
 -- Create the database
 CREATE DATABASE IF NOT EXISTS `{{MYSQL_DATABASE}}`;
 
@@ -11,13 +16,8 @@ CREATE TABLE IF NOT EXISTS `users` (
     phone_number VARCHAR(15) NOT NULL,
     password VARBINARY(128) NOT NULL,
     token VARBINARY(128) NOT NULL,
-    registration_date DATE,
-    last_connection_date DATE,
+    registration_date DATE NOT NULL,
+    last_connection_date DATE NOT NULL,
     telegram_profile VARCHAR(255),
     active ENUM('y', 'n')
 );
-
--- Create a user and grant privileges
-CREATE USER IF NOT EXISTS '{{MYSQL_USER}}'@'%' IDENTIFIED BY '{{MYSQL_PASSWORD}}';
-GRANT ALL PRIVILEGES ON `{{MYSQL_DATABASE}}`.* TO '{{MYSQL_USER}}'@'%';
-FLUSH PRIVILEGES;

@@ -2,6 +2,7 @@
 p_number = '+79999999999'
 code = '123456'
 token = 00000
+
 # Everything is valid by default
 phone_number_valid = True  # Valid format
 phone_number_accepted = False  # Accepted by server
@@ -17,8 +18,9 @@ PORT = 5000
 
 # Database connection parameters
 db_config = {
-    "host": "localhost",
-    "user": "mike",
-    "password": "123456",
-    "database": "users"  # Replace with your database name
+    'user': 'mike',        # MySQL username
+    'password': '123456',  # MySQL password
+    'host': 'mysql-db',   # Hostname of the MySQL container
+    'port': 3306,            # Port number for MySQL
+    'database': 'users'    # Name of the database you want to connect to
 }

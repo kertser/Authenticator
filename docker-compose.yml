@@ -1,6 +1,7 @@
 version: '3'
 services:
   python-app:
+    container_name: server
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,6 +17,7 @@ services:
       MYSQL_DATABASE: users
 
   mysql-db:
+    container_name: mysql-db
     build:
       context: .
       dockerfile: Dockerfile-mysql

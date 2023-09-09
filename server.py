@@ -39,9 +39,10 @@ def get_record_by_phone_number(phone_number_to_find):
         print("Error:", error)
 
     finally:
-        if connection.is_connected():
-            cursor.close()
+        # Close the connection when done
+        if 'connection' in locals() and connection.is_connected():
             connection.close()
+            cursor.close()
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
@@ -70,7 +71,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
                     phone_number = json_dict['phone_number']
                     print(f'Received phone number from client is: {phone_number}')
 
-                    record = list(get_record_by_phone_number(phone_number))
+                    record = get_record_by_phone_number(phone_number)
                     if record is not None:  # Phone number is in list
                         print(f'Phone number is in list')
 
