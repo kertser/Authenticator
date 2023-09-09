@@ -56,6 +56,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
             data = conn.recv(1024)
             received_string = data.decode('utf-8', 'ignore')
 
+            """
+            On connection, the client sends a JSON string with the phone number.
+            If the client sends a JSON string with the phone number, the server checks if the phone number is in the list.
+            If the phone number is in the list, the server sends a JSON string with the result of the operation and awaits
+            for the client to send a JSON string with the code.
+            If the client sends a JSON string with the code, the server checks if the code is correct.
+            The assumption is that the client will send a JSON string with the phone number first, and then the code.
+            """
             try:
                 json_dict = json.loads(received_string)
                 if 'phone_number' in json_dict:

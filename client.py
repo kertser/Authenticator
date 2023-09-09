@@ -81,7 +81,7 @@ def send():
                     ui.notify('Phone number not found. Try again')
                     config.phone_number_accepted = False
                 elif response['message'] == '300':  # Incorrect code
-                    ui.notify('Code not valid. Try again')
+                    ui.notify('Password is not valid. Try again')
                     config.code_accepted = False
 
             elif ('token' in response) and (response['message'] == '200'):
