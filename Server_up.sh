@@ -1,4 +1,4 @@
-// This is a server-up script
+# This is a server-up script
 sudo apt update
 sudo apt full-upgrade
 
