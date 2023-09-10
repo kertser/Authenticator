@@ -2,7 +2,7 @@ import requests
 import json
 
 # Define the server URL
-server_url = "http://localhost:8888"  # Will be changed to the actual server URL
+server_url = "http://localhost:5000"  # Will be changed to the actual server URL
 
 # Example data for sending a phone number
 phone_number_data = {
