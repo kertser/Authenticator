@@ -11,7 +11,7 @@ phone_number_data = {
 
 # Example data for verifying a code
 code_data = {
-    "password": "12345"
+    "phone_number": "+972546490221", "password": "12345"
 }
 
 # Send a POST request to check the phone number

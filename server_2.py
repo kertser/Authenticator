@@ -52,11 +52,12 @@ class VerifyCodeHandler(BaseHandler):
     async def post(self):
         try:
             request_data = json.loads(self.request.body.decode('utf-8'))
+            phone_number = request_data.get('phone_number')
             code = request_data.get('password')
 
-            sql = "SELECT * FROM users WHERE password = %s"  # Need to check the phone number too
+            sql = "SELECT * FROM users WHERE phone_number = %s and password = %s"
 
-            await self.cursor.execute(sql, (code,))
+            await self.cursor.execute(sql, (phone_number, code,))
             result = await self.cursor.fetchone()
 
             if result:
