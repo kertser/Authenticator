@@ -26,3 +26,7 @@ class TokenGenerator:
         token = self.generate_token_by_date(date)
 
         return token
+
+
+# Test the token generator
+print(TokenGenerator().get_token())
