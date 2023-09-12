@@ -19,6 +19,14 @@ docker-compose --version
 
 sudo apt autoremove
 
+# mount sdb volume
+sudo mkdir -p /mnt/data
+sudo mkfs.ext4 /dev/sdb
+sudo mount /dev/sdb /mnt/data
+sudo chmod 777 /mnt/data
+
+
+
 git clone https://github.com/kertser/Authenticator
 # shellcheck disable=SC2164
 cd Authenticator

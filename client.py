@@ -100,15 +100,11 @@ def send():
                 code.disable()
                 send.enable()
 
-        except ConnectionRefusedError:
-            print('Connection refused')
-
-        except:
-            print('Docker not responding')
-
-        finally:
             client_socket.shutdown(socket.SHUT_RDWR)
             client_socket.close()
+
+        except ConnectionRefusedError:
+            print('Connection refused')
 
 
 ui.colors()

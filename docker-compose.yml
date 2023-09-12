@@ -29,7 +29,12 @@ services:
       MYSQL_USER: mike
       MYSQL_PASSWORD: 123456
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  mysql-data:
+  mysql_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/data
