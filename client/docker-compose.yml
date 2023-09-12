@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  nicegui:
+    image: zauberzeug/nicegui:latest
+    container_name: client
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    volumes:
+      - ./app:/app # mounting local app directory
+    environment:
+      - PUID=1000 # user id
+      - PGID=1000 # group id
+      - STORAGE_SECRET="storage_secret" # private key to secure the browser session cookie
