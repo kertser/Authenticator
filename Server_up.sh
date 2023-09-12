@@ -1,4 +1,8 @@
 # This is a server-up script
+
+# chmod +x Server_up.sh
+# ./Server_up.sh
+
 sudo apt update
 sudo apt full-upgrade
 
@@ -25,8 +29,7 @@ sudo mkfs.ext4 /dev/sdb
 sudo mount /dev/sdb /mnt/data
 sudo chmod 777 /mnt/data
 
-
-
+# Get the code:
 git clone https://github.com/kertser/Authenticator
 # shellcheck disable=SC2164
 cd Authenticator

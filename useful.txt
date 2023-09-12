@@ -21,3 +21,7 @@ INSERT INTO users (username, phone_number, password, token, registration_date, l
 VALUES ('Mike Kertser', '+972546490221', '12345', '08092023','2023-09-08','2023-09-08','https://t.me/MikeKertser', 'y');
 
 SELECT * FROM users;
+
+# Run the server script on start
+chmod +x Server_up.sh
+./Server_up.sh
