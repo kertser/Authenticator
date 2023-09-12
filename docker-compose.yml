@@ -30,6 +30,7 @@ services:
       MYSQL_PASSWORD: 123456
     volumes:
       - mysql_data:/var/lib/mysql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
 
 volumes:
   mysql_data:
