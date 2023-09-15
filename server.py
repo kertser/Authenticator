@@ -1,7 +1,10 @@
+from typing import Any
 import tornado.ioloop
 import tornado.web
 import aiomysql
 import json
+from tornado import httputil
+
 import token_generator
 import config
 
@@ -10,6 +13,16 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 
 class BaseHandler(tornado.web.RequestHandler):
+    def __init__(
+            self,
+            application: tornado.web.Application,
+            request: httputil.HTTPServerRequest,
+            **kwargs: Any,
+    ):
+        super().__init__(application, request, **kwargs)
+        self.cursor = None
+        self.db = None
+
     async def prepare(self):
         self.db = await aiomysql.connect(**config.db_config)
         self.cursor = await self.db.cursor()
@@ -52,8 +65,14 @@ class VerifyCodeHandler(BaseHandler):
             result = await self.cursor.fetchone()
 
             if result:
-                token = result[4].decode('utf-8')  # Adjust this index to match your token field
+                token = token_generator.TokenGenerator().get_token().decode('utf-8')
                 self.write(json.dumps({'token': token}))
+                #  This is reserved for token check feature
+                """
+                token = result[4].decode('utf-8')
+                if token == token_generator.TokenGenerator().generate_token_by_date("2023-09-15 00:00:00"):
+                    self.write(json.dumps({'token': token}))
+                """
             else:
                 self.set_status(404)
 
