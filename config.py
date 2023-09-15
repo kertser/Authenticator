@@ -1,22 +1,11 @@
-# number for placeholder
-p_number = '+79999999999'
-code = '123456'
-token = 00000
-
-# Everything is valid by default
-phone_number_valid = True  # Valid format
-phone_number_accepted = False  # Accepted by server
-code_valid = False  # Valid format
-code_accepted = False  # Accepted by server
-
-# Server address
+# Server address:
 
 # HOST = 'localhost'  # for local test only
 # HOST = '0.0.0.0'  # will be on the docker, remotely
 HOST = '46.243.233.79' # This is the real IP address of the server (not to be used remotely)
 PORT = 5000
 
-server_url = f"http://{HOST}:{PORT}" # for local
+server_url = f"http://{HOST}:{PORT}"
 
 # Database configuration
 db_config = {

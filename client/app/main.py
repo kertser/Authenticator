@@ -4,7 +4,7 @@ import os
 import config
 import socket
 import json
-
+import requests
 
 # Validating phone number format
 def correct_format(input_string):
@@ -53,41 +53,40 @@ def set_code(input_string):
 
 # Send button function for phone number and code input
 def send():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        try:
+    try:
+        if config.phone_number_valid and not config.phone_number_accepted:  # Sending the phone number
 
-            client_socket.connect((config.server_HOST, config.server_PORT))
+            # Encode the phone number message to send
+            phone_number_data = {"phone_number": config.p_number}
 
-            if config.phone_number_valid and not config.phone_number_accepted:  # Send phone number
-                json_data = json.dumps({'phone_number': config.p_number})
-                client_socket.send(json_data.encode())
-                data = client_socket.recv(1024)
-            elif config.phone_number_accepted:  # Send the code
-                json_data = json.dumps({'code': config.code})
-                client_socket.send(json_data.encode())
-                data = client_socket.recv(1024)
+            # Send a POST request to check the phone number
+            response = requests.post(f"{config.server_url}/check_phone", json=phone_number_data)
 
-            response = json.loads(data.decode())
-            if 'token' not in response:
-                if response['message'] == '200':  # Phone is in list
-                    ui.notify('Phone number accepted')
-                    config.phone_number_accepted = True
-                    phone_number.disable()
-                    code.enable()
-                elif response['message'] == '100':  # Phone is not in list
-                    ui.notify('Phone number not found. Try again')
-                    config.phone_number_accepted = False
-                elif response['message'] == '300':  # Incorrect code
-                    ui.notify('Password is not valid. Try again')
-                    config.code_accepted = False
+            if response.status_code == 200:  # Phone in the list
+                ui.notify('Phone number accepted')
+                config.phone_number_accepted = True
+                phone_number.disable()
+                code.enable()
+            elif response.status_code == 404:  # Phone is not in list
+                ui.notify('Phone number not found. Try again')
+                config.phone_number_accepted = False
+            else:
+                ui.notify("Error:", response.status_code, response.text)
 
-            elif ('token' in response) and (response['message'] == '200'):
+        elif config.phone_number_accepted:  # Sending the code
 
-                config.token = response['token']
+            # Encode the password message to send
+            code_data = {"phone_number": config.p_number, "password": config.code}
+            # Send a POST request to verify the code
+            response = requests.post(f"{config.server_url}/verify_code", json=code_data)
+
+            if response.status_code == 200:
+                data = json.loads(response.text)
+                config.token = data.get('token')
                 config.code_accepted = True
 
                 ui.notify('Token: ' + config.token, close_button='OK')
-                #  Reset
+                #  Reset UI
                 config.phone_number_accepted = False
                 config.code_accepted = False
                 config.p_number = '+79999999999'
@@ -98,11 +97,14 @@ def send():
                 code.disable()
                 send.enable()
 
-            client_socket.shutdown(socket.SHUT_RDWR)
-            client_socket.close()
+            elif response.status_code == 404:
+                ui.notify('Code not matched. Try again')
+                config.code_accepted = False
+            else:
+                ui.notify("Error:", response.status_code, response.text)
 
-        except ConnectionRefusedError:
-            print('Connection refused')
+    except:
+        ui.notify('connection error')
 
 
 #@ui.page('/')
