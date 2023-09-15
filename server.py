@@ -65,7 +65,7 @@ class VerifyCodeHandler(BaseHandler):
             result = await self.cursor.fetchone()
 
             if result:
-                token = token_generator.TokenGenerator().get_token().decode('utf-8')
+                token = token_generator.TokenGenerator().get_token()
                 self.write(json.dumps({'token': token}))
                 #  This is reserved for token check feature
                 """
