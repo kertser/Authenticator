@@ -15,7 +15,8 @@ This is a basic server, running containerized.<br>
 - Async Server is operated at port 5000 in container "server"<br>
 - MySQL db is operated at port 3306 in container "db-mysql"<br>
 - Everything is orchestrated with docker-compose<br>
-- GUI client for testing is available at port 8000, in separate container <br>
+- GUI client for testing is available at port 8080, in separate container <br>
+  (http://46.243.233.79:8080/)
 
 ## Usage
 
