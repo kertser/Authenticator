@@ -1,4 +1,0 @@
-#nicegui
-#gunicorn
-requests
-mysql-connector-python
