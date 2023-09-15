@@ -1,5 +1,5 @@
 # number for placeholder
-p_number = '+79999999999'
+p_number = '+79999config.py999999'
 code = '123456'
 token = 00000
 
@@ -16,12 +16,11 @@ HOST = '0.0.0.0'  # will be on the docker, remotely
 # HOST = '46.243.233.79' # This is the real IP address of the server (not to be used remotely)
 PORT = 5000
 
-# Database configuration
+# Database connection parameters
 db_config = {
-    'host': '46.243.233.79',
-    'port': 3306,
-    'user': 'mike',
-    'password': 'dovKh5dkt',
-    'db': 'users',
-    'charset': 'utf8mb4',
+    'user': 'mike',        # MySQL username
+    'password': '123456',  # MySQL password
+    'host': 'mysql-db',   # Hostname of the MySQL container
+    'port': 3306,            # Port number for MySQL
+    'database': 'users'    # Name of the database you want to connect to
 }

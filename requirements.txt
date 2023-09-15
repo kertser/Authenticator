@@ -1,4 +1,4 @@
-#nicegui
-#gunicorn
+#mysql-connector-python
 requests
-mysql-connector-python
+tornado
+aiomysql

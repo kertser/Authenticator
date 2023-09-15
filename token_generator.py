@@ -29,4 +29,4 @@ class TokenGenerator:
 
 
 # Test the token generator
-print(TokenGenerator().get_token())
+print(TokenGenerator().generate_token_by_date("2023-09-15 00:00:00"))
