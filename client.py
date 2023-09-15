@@ -1,9 +1,11 @@
 import requests
 import json
 
+import config
+
 # Define the server URL
-#  server_url = "http://localhost:5000"  # Local URL
-server_url = "46.243.233.79:5000"  # Server URL
+server_url = config.server_url
+# server_url = "http://46.243.233.79:5000"
 
 
 # Example data for sending a phone number
