@@ -6,38 +6,51 @@ import socket
 import json
 import requests
 
-# Validating phone number format
+# Function for validating the phone number format
 def correct_format(input_string):
+    """
+    :param input_string:
+    :return: True or False
+    """
     pattern = r'^[0-9+]+$'
 
     if re.match(pattern, input_string):
         config.phone_number_valid = True
-        send.enable()
-        return True
+        send.enable() # Enable send button
+        return True # Valid
 
     else:
         config.phone_number_valid = False
-        send.disable()
-        return False
+        send.disable() # Disable send button
+        return False # Invalid
 
 
-# Validating code numerical format
+# Function for validating the code numerical format
 def correct_code(input_string):
+    """
+
+    :param input_string:
+    :return: True or False
+    """
     pattern = r'^[0-9]+$'
 
     if re.match(pattern, input_string) or (input_string == ''):
         config.code_valid = True
-        send.enable()
-        return True
+        send.enable() # Enable send button
+        return True # Valid
 
     else:
         config.code_valid = False
-        send.disable()
-        return False
+        send.disable() #
+        return False # Invalid
 
 
 # Adding plus sign to phone number function
 def add_plus(input_string):
+    """
+    :param input_string:
+    :return: Added "+" sign
+    """
     if not input_string.value.startswith('+') and not input_string.value == '':
         return '+' + input_string.value
     else:
@@ -53,6 +66,9 @@ def set_code(input_string):
 
 # Send button function for phone number and code input
 def send():
+    """
+    Main procedure for send button
+    """
     try:
         if config.phone_number_valid and not config.phone_number_accepted:  # Sending the phone number
 
@@ -70,7 +86,7 @@ def send():
             elif response.status_code == 404:  # Phone is not in list
                 ui.notify('Phone number not found. Try again')
                 config.phone_number_accepted = False
-            else:
+            else: # Any other error, like "500"
                 ui.notify("Error:", response.status_code, response.text)
 
         elif config.phone_number_accepted:  # Sending the code
@@ -80,13 +96,13 @@ def send():
             # Send a POST request to verify the code
             response = requests.post(f"{config.server_url}/verify_code", json=code_data)
 
-            if response.status_code == 200:
+            if response.status_code == 200: # Code is correct
                 data = json.loads(response.text)
                 config.token = data.get('token')
                 config.code_accepted = True
 
                 ui.notify('Token: ' + config.token, close_button='OK')
-                #  Reset UI
+                #  Reset UI for next use
                 config.phone_number_accepted = False
                 config.code_accepted = False
                 config.p_number = '+79999999999'
@@ -97,10 +113,10 @@ def send():
                 code.disable()
                 send.enable()
 
-            elif response.status_code == 404:
+            elif response.status_code == 404: # Code not matched
                 ui.notify('Code not matched. Try again')
                 config.code_accepted = False
-            else:
+            else: # Any other error, like "500"
                 ui.notify("Error:", response.status_code, response.text)
 
     except:
@@ -109,7 +125,8 @@ def send():
 
 #@ui.page('/')
 
-ui.colors()
+ui.colors() # Set the colors for the UI
+# Initializing the UI
 with ui.card().classes('bg-cyan-300 no-wrap'):
     with ui.row():
         label = ui.label('Please input your phone number and press SEND:')

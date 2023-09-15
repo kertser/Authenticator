@@ -1,4 +1,4 @@
-# Server address:
+# Configuration file for the server
 
 # HOST = 'localhost'  # for local test only
 # HOST = '0.0.0.0'  # will be on the docker, remotely
@@ -7,7 +7,7 @@ PORT = 5000
 
 server_url = f"http://{HOST}:{PORT}"
 
-# Database configuration
+# Database configuration properties
 db_config = {
     f"host": HOST,
     'port': 3306,

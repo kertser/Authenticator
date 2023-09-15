@@ -1,12 +1,11 @@
+# This is a CLI client for the server. To run it, you need to have the server running.
+
 import requests
 import json
-
 import config
 
 # Define the server URL
 server_url = config.server_url
-# server_url = "http://46.243.233.79:5000"
-
 
 # Example data for sending a phone number
 phone_number_data = {

@@ -16,5 +16,5 @@ EXPOSE 5000
 # No need to set environment variables here; they will be set in the Compose file
 
 # Run your server.py script
-CMD ["python", "server.py"]
+CMD ["python3", "server.py"]
 
