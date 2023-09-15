@@ -17,6 +17,16 @@ This is a basic server, running containerized.<br>
 - Everything is orchestrated with docker-compose<br>
 - GUI client for testing is available at port 8080, in separate container <br>
   (http://46.243.233.79:8080/)
+  - <For the moment, the database has the following table format for the users:<br><i>
+  id [int]<br>
+  username [varchar(255)]<br>
+  phone_number [varchar(15)]<br>
+  password [varbinary(128)]<br>
+  token [varbinary(128)]<br>
+  registration_date [date]<br>
+  last_connection_date [date]<br>
+  telegram_profile [varchar(255)]<br>
+  active [y/n]<br></i>
 
 ## Usage
 
