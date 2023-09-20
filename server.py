@@ -6,6 +6,7 @@ import tornado.web
 from tornado import httputil
 import aiomysql
 import json
+import generate_template
 
 import token_generator  # generating and comparing sha256 hash tokens
 import config  # general config
@@ -86,16 +87,31 @@ class VerifyCodeHandler(BaseHandler):
             self.set_status(500)  # Internal server error
             self.write(str(e))
 
+class GetTemplateHandler(BaseHandler):
+    async def get(self):
+        try:
+            template = generate_template.get_template()
+            response_data = template
+            self.set_status(200)
+            self.write(json.dumps(response_data))
+        except json.JSONEncodeError as e:
+            self.set_status(500)  # Internal server error due to JSON encoding issue
+            self.write({'error': 'Failed to encode JSON response'})
+        except Exception as e:
+            self.set_status(500)  # Other unexpected internal server error
+            self.write({'error': 'Internal server error'})
 
 # Creating the application - entry point
 def make_app():
     return tornado.web.Application([
         (r"/check_phone", CheckPhoneHandler),
         (r"/verify_code", VerifyCodeHandler),
+        (r"/get_template", GetTemplateHandler),
     ])
 
 
 if __name__ == "__main__":
     app = make_app()
     app.listen(5000)
+    print("Server is running on port 5000")
     tornado.ioloop.IOLoop.current().start()
